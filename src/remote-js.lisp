@@ -38,9 +38,11 @@
          :documentation "The port the WebSockets server will run on.")
    (server :accessor context-server
            :initarg :server
+           :initform nil
            :documentation "The trivial-websockets server.")
    (handler :accessor context-handler
             :initarg :handler
+            :initform nil
             :documentation "The server handler.")
    (runningp :accessor context-running-p
              :initform nil
@@ -94,7 +96,7 @@
 
   (:method ((context context))
     (with-slots (handler runningp) context
-      (trivial-ws:stop handler)
+      (when handler (trivial-ws:stop handler))
       (setf runningp nil))))
 
 (defparameter +connected-message+ "connected")
